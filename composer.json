@@ -1,0 +1,21 @@
+{
+  "name": "simone-baldini/wordpress-starter-theme-installer",
+  "description": "WordPress starter theme installer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "simone baldini",
+      "email": "info@simonebaldini.dev"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "symfony/console": "9999999-dev",
+    "composer/composer": "2.1.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimoneBaldini\\": "src/"
+    }
+  }
+}
