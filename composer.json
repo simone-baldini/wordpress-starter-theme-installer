@@ -8,10 +8,9 @@
       "email": "info@simonebaldini.dev"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
-    "symfony/console": "9999999-dev",
-    "composer/composer": "2.1.x-dev"
+    "symfony/console": "^5.2",
+    "composer/composer": "^2.0"
   },
   "autoload": {
     "psr-4": {
