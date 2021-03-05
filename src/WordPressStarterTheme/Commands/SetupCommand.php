@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Undocumented class
@@ -26,7 +27,7 @@ class SetupCommand extends Command
      */
     protected function configure()
     {
-        // ...
+        $this->addArgument('path', InputArgument::REQUIRED, 'Theme absolute path');
     }
 
     /**
@@ -55,16 +56,26 @@ class SetupCommand extends Command
             'Text Domain' => $this->askTextDomain($input, $output, $helper),
         ]);
 
-        $style = implode("\n", array_map(
+        $this->dump($input, $output, $options);
+    }
+
+    private function dump(InputInterface $input, OutputInterface $output, array $options)
+    {
+        $path = $input->getArgument('path');
+        $output = implode("\n", array_map(
             function ($k, $v) {
                 return sprintf('%s: %s', $k, $v);
             },
             array_keys($options),
             $options
         ));
-        $output->writeln($style);
+        $style = <<<EOF
+/*
+{$output}
+*/
+EOF;
 
-        return Command::SUCCESS;
+        file_put_contents("{$path}/style.css", $style);
     }
 
     /**

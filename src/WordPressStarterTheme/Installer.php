@@ -1,12 +1,13 @@
 <?php
 /**
- * 
+ *
  */
 namespace SimoneBaldini\WordPressStarterTheme;
 
 use Composer\Script\Event;
 use Symfony\Component\Console\Application;
 use SimoneBaldini\WordPressStarterTheme\Commands\SetupCommand;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * Undocumented class
@@ -18,12 +19,17 @@ class Installer
      *
      * @return void
      */
-    public static function run(Event $event=null)
+    public static function run(Event $event)
     {
+        $path = dirname($event->getComposer()->getConfig()->get('vendor-dir'));
         $application = new Application();
-        $command = new SetupCommand();
+        $command = new SetupCommand('app:setup');
         $application->add($command);
         $application->setDefaultCommand($command->getName());
-        $application->run();
+        $input = new ArrayInput([
+            'command' => 'app:setup',
+            'path' => $path,
+        ]);
+        $application->run($input);
     }
 }
