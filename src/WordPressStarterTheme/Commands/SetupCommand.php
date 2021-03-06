@@ -7,9 +7,7 @@ namespace SimoneBaldini\WordPressStarterTheme\Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -85,7 +83,6 @@ class SetupCommand extends Command
 
         $helper = $this->getHelper('question');
         $options = array_filter([
-            'Tags' => $this->askTags($input, $output, $helper),
             'Theme Name' => $this->askThemeName($input, $output, $helper),
             'Theme URI' => $this->askThemeURI($input, $output, $helper),
             'Author' => $this->askAuthor($input, $output, $helper),
@@ -98,6 +95,7 @@ class SetupCommand extends Command
             'License' => $this->askLicense($input, $output, $helper),
             'License URI' => $this->askLicenseURI($input, $output, $helper),
             'Text Domain' => $this->askTextDomain($input, $output, $helper),
+            'Tags' => $this->askTags($input, $output, $helper),
         ]);
 
         $this->dump($input, $output, $options);
