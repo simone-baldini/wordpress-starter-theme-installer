@@ -17,6 +17,49 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class SetupCommand extends Command
 {
+    const TAGS = [
+        'blog',
+        'e-commerce',
+        'education',
+        'entertainment',
+        'food-and-drink',
+        'holiday',
+        'news',
+        'photography',
+        'portfolio',
+        'grid-layout',
+        'one-column',
+        'two-columns',
+        'three-columns',
+        'four-columns',
+        'left-sidebar',
+        'right-sidebar',
+        'accessibility-ready',
+        'block-patterns',
+        'block-styles',
+        'buddypress',
+        'custom-background',
+        'custom-colors',
+        'custom-header',
+        'custom-logo',
+        'custom-menu',
+        'editor-style',
+        'featured-image-header',
+        'featured-images',
+        'flexible-header',
+        'footer-widgets',
+        'front-page-post-form',
+        'full-site-editing',
+        'full-width-template',
+        'microformats',
+        'post-formats',
+        'rtl-language-support',
+        'sticky-post',
+        'theme-options',
+        'threaded-comments',
+        'translation-ready',
+    ];
+
     // the name of the command (the part after "bin/console")
     protected static $defaultName = 'app:setup';
 
@@ -42,6 +85,7 @@ class SetupCommand extends Command
 
         $helper = $this->getHelper('question');
         $options = array_filter([
+            'Tags' => $this->askTags($input, $output, $helper),
             'Theme Name' => $this->askThemeName($input, $output, $helper),
             'Theme URI' => $this->askThemeURI($input, $output, $helper),
             'Author' => $this->askAuthor($input, $output, $helper),
@@ -393,6 +437,28 @@ EOF;
         );
 
         return $helper->ask($input, $output, $question);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
+     * @param  mixed           $helper
+     * @return string
+     */
+    private function askTags(InputInterface $input, OutputInterface $output, $helper)
+    {
+        $question = new Question('Please enter the tags: ');
+        $question->setAutocompleterValues(self::TAGS);
+        $tags = [];
+
+        do {
+            $answer = $helper->ask($input, $output, $question);
+            $tags[] = $answer;
+        } while (isset($answer));
+
+        return implode(', ', $tags);
     }
 
 }
