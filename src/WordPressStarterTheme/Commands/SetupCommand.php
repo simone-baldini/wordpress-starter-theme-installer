@@ -101,6 +101,16 @@ class SetupCommand extends Command
         $this->dump($input, $output, $options);
     }
 
+    private function updatePhpCodeSnifferRuleset($path)
+    {
+        $xml = file_get_contents("{$path}/phpcs.xml");
+        $ruleset = new \SimpleXMLElement($xml);
+        $config = $ruleset->addChild('config');
+        $config->addAttribute('name', 'installed_paths');
+        $config->addAttribute('value', "{$path}/vendor/wp-coding-standards/wpcs");
+        file_put_contents("{$path}/phpcs.xml", $ruleset->saveXML());
+    }
+
     private function dump(InputInterface $input, OutputInterface $output, array $options)
     {
         $path = $input->getArgument('path');
@@ -118,6 +128,7 @@ class SetupCommand extends Command
 EOF;
 
         file_put_contents("{$path}/style.css", $style);
+        $this->updatePhpCodeSnifferRuleset($path);
     }
 
     /**
