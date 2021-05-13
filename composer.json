@@ -16,10 +16,5 @@
     "psr-4": {
       "SimoneBaldini\\": "src/"
     }
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "SimoneBaldini\\WordPressStarterTheme\\Installer::run"
-    ]
   }
 }
